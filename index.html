@@ -4,165 +4,177 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manga / Book Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 20px;
-      background-color: #f5f5f5;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     h1 {
-      text-align: center;
-      margin-bottom: 30px;
+      margin: 0;
+      font-weight: 600;
+      font-size: 32px;
+    }
+
+    .search-box {
+      margin-top: 15px;
+    }
+
+    .search-box input {
+      padding: 10px 15px;
+      width: 250px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 20px;
     }
 
     .manga-section {
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
 
     .manga-title {
-      font-size: 24px;
+      font-size: 26px;
       margin-bottom: 15px;
+      font-weight: 600;
+      border-left: 5px solid #00c6ff;
+      padding-left: 10px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
     }
 
     .card {
-      background: white;
-      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(10px);
     }
 
     .card:hover {
-      transform: scale(1.05);
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     }
 
     .card img {
       width: 100%;
-      height: 220px;
+      height: 240px;
       object-fit: cover;
     }
 
     .card-title {
       text-align: center;
-      padding: 8px;
-      font-weight: bold;
+      padding: 10px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 24px; }
+      .grid { gap: 15px; }
     }
   </style>
 </head>
 <body>
 
-  <h1>📚 Manga / Book Library</h1>
+  <header>
+    <h1>📚 Manga / Book Library</h1>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search manga...">
+    </div>
+  </header>
 
-  <div id="library"></div>
+  <div class="container" id="library"></div>
 
   <script>
     const mangaData = [
       {
         title: "One Punch Man",
-        volumes: [
-          { name: "Volume 1", cover: "covers/opm/Volume 1.png" },
-          { name: "Volume 2", cover: "covers/opm/Volume 2.png" },
-          { name: "Volume 3", cover: "covers/opm/Volume 3.png" },
-          { name: "Volume 4", cover: "covers/opm/Volume 4.png" },
-          { name: "Volume 5", cover: "covers/opm/Volume 5.png" },
-          { name: "Volume 6", cover: "covers/opm/Volume 6.png" },
-          { name: "Volume 7", cover: "covers/opm/Volume 7.png" },
-          { name: "Volume 8", cover: "covers/opm/Volume 8.png" },
-          { name: "Volume 9", cover: "covers/opm/Volume 9.png" },
-          { name: "Volume 10", cover: "covers/opm/Volume 10.png" },
-          { name: "Volume 11", cover: "covers/opm/Volume 11.png" },
-          { name: "Volume 12", cover: "covers/opm/Volume 12.png" },
-          { name: "Volume 13", cover: "covers/opm/Volume 13.png" },
-          { name: "Volume 14", cover: "covers/opm/Volume 14.png" },
-          { name: "Volume 15", cover: "covers/opm/Volume 15.png" },
-          { name: "Volume 16", cover: "covers/opm/Volume 16.png" },
-          { name: "Volume 17", cover: "covers/opm/Volume 17.png" },
-          { name: "Volume 18", cover: "covers/opm/Volume 18.png" },
-          { name: "Volume 19", cover: "covers/opm/Volume 19.png" },
-          { name: "Volume 20", cover: "covers/opm/Volume 20.png" },
-          { name: "Volume 21", cover: "covers/opm/Volume 21.png" },
-          { name: "Volume 22", cover: "covers/opm/Volume 22.png" },
-          { name: "Volume 23", cover: "covers/opm/Volume 23.png" },
-          { name: "Volume 24", cover: "covers/opm/Volume 24.png" },
-          { name: "Volume 25", cover: "covers/opm/Volume 25.png" },
-          { name: "Volume 26", cover: "covers/opm/Volume 26.png" },
-          { name: "Volume 27", cover: "covers/opm/Volume 27.png" },
-          { name: "Volume 28", cover: "covers/opm/Volume 28.png" },
-          { name: "Volume 29", cover: "covers/opm/Volume 29.png" },
-          { name: "Volume 30", cover: "covers/opm/Volume 30.png" },
-          { name: "Volume 31", cover: "covers/opm/Volume 31.png" }
-        ]
+        volumes: Array.from({ length: 31 }, (_, i) => ({
+          name: `Volume ${i + 1}`,
+          cover: `covers/opm/Volume ${i + 1}.png`
+        }))
       },
       {
         title: "Shangri La Frontier",
-        volumes: [
-          { name: "Volume 1", cover: "covers/slf/Volume 1.png" },
-          { name: "Volume 2", cover: "covers/slf/Volume 2.png" },
-          { name: "Volume 3", cover: "covers/slf/Volume 3.png" },
-          { name: "Volume 4", cover: "covers/slf/Volume 4.png" },
-          { name: "Volume 5", cover: "covers/slf/Volume 5.png" },
-          { name: "Volume 6", cover: "covers/slf/Volume 6.png" },
-          { name: "Volume 7", cover: "covers/slf/Volume 7.png" },
-          { name: "Volume 8", cover: "covers/slf/Volume 8.png" },
-          { name: "Volume 9", cover: "covers/slf/Volume 9.png" },
-          { name: "Volume 10", cover: "covers/slf/Volume 10.png" },
-          { name: "Volume 11", cover: "covers/slf/Volume 11.png" },
-          { name: "Volume 12", cover: "covers/slf/Volume 12.png" },
-          { name: "Volume 13", cover: "covers/slf/Volume 13.png" },
-          { name: "Volume 14", cover: "covers/slf/Volume 14.png" },
-          { name: "Volume 15", cover: "covers/slf/Volume 15.png" },
-          { name: "Volume 16", cover: "covers/slf/Volume 16.png" },
-          { name: "Volume 17", cover: "covers/slf/Volume 17.png" },
-          { name: "Volume 18", cover: "covers/slf/Volume 18.png" },
-          { name: "Volume 19", cover: "covers/slf/Volume 19.png" },
-          { name: "Volume 20", cover: "covers/slf/Volume 20.png" },
-          { name: "Volume 21", cover: "covers/slf/Volume 21.png" }
-        ]
+        volumes: Array.from({ length: 21 }, (_, i) => ({
+          name: `Volume ${i + 1}`,
+          cover: `covers/slf/Volume ${i + 1}.png`
+        }))
       }
     ];
 
     const libraryDiv = document.getElementById("library");
+    const searchInput = document.getElementById("search");
 
-    mangaData.forEach(manga => {
-      const section = document.createElement("div");
-      section.className = "manga-section";
+    function renderLibrary(filter = "") {
+      libraryDiv.innerHTML = "";
 
-      const title = document.createElement("div");
-      title.className = "manga-title";
-      title.textContent = manga.title;
+      mangaData
+        .filter(manga => manga.title.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(manga => {
+          const section = document.createElement("div");
+          section.className = "manga-section";
 
-      const grid = document.createElement("div");
-      grid.className = "grid";
+          const title = document.createElement("div");
+          title.className = "manga-title";
+          title.textContent = manga.title;
 
-      manga.volumes.forEach(volume => {
-        const card = document.createElement("div");
-        card.className = "card";
+          const grid = document.createElement("div");
+          grid.className = "grid";
 
-        const img = document.createElement("img");
-        img.src = volume.cover;
-        img.alt = volume.name;
+          manga.volumes.forEach(volume => {
+            const card = document.createElement("div");
+            card.className = "card";
 
-        const name = document.createElement("div");
-        name.className = "card-title";
-        name.textContent = volume.name;
+            const img = document.createElement("img");
+            img.src = volume.cover;
+            img.alt = volume.name;
 
-        card.appendChild(img);
-        card.appendChild(name);
-        grid.appendChild(card);
-      });
+            const name = document.createElement("div");
+            name.className = "card-title";
+            name.textContent = volume.name;
 
-      section.appendChild(title);
-      section.appendChild(grid);
-      libraryDiv.appendChild(section);
+            card.appendChild(img);
+            card.appendChild(name);
+            grid.appendChild(card);
+          });
+
+          section.appendChild(title);
+          section.appendChild(grid);
+          libraryDiv.appendChild(section);
+        });
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      renderLibrary(e.target.value);
     });
+
+    renderLibrary();
   </script>
 
 </body>
