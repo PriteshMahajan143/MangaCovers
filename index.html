@@ -73,6 +73,7 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       backdrop-filter: blur(10px);
+      cursor: pointer;
     }
 
     .card:hover {
@@ -93,6 +94,31 @@
       font-size: 14px;
     }
 
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .modal.close-area {
+      cursor: zoom-out;
+    }
+
     @media (max-width: 600px) {
       h1 { font-size: 24px; }
       .grid { gap: 15px; }
@@ -109,6 +135,11 @@
   </header>
 
   <div class="container" id="library"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <img id="modalImg" src="" alt="Expanded View">
+  </div>
 
   <script>
     const mangaData = [
@@ -130,6 +161,17 @@
 
     const libraryDiv = document.getElementById("library");
     const searchInput = document.getElementById("search");
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+
+    function openModal(src) {
+      modal.style.display = "flex";
+      modalImg.src = src;
+    }
+
+    modal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
 
     function renderLibrary(filter = "") {
       libraryDiv.innerHTML = "";
@@ -154,6 +196,8 @@
             const img = document.createElement("img");
             img.src = volume.cover;
             img.alt = volume.name;
+
+            img.addEventListener("click", () => openModal(volume.cover));
 
             const name = document.createElement("div");
             name.className = "card-title";
